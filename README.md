@@ -20,3 +20,9 @@ var View = Backbone.View.extend({
     }
 });
 ```
+
+MIT LICENSE
+
+---
+
+Thanks to our friends at Codecademy for showing us the declarative light with [backbone.declarative](https://github.com/Codecademy/backbone.declarative).
