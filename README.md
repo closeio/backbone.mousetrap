@@ -1,4 +1,22 @@
 backbone.mousetrap
 ==================
 
-A better integration of Backbone.js and Mousetrap keyboard event bindings
+Bring [Backbone.js](http://backbonejs.org/) and [Mousetrap](https://github.com/ccampbell/mousetrap) together nicely for declarative keyboard event bindings on Backbone views.
+
+* Nice declarative syntax
+* Allows you to bind different keyboard events to different views
+* Keyboard events are unbound automatically when the view's `remove()` is called
+
+
+```
+var View = Backbone.View.extend({
+    keyboardEvents: {
+        'command+shift+t': 'test',
+        'control+shift+t': 'test'
+    },
+
+    test: function(ev) {
+        alert('hello world!');
+    }
+});
+```
