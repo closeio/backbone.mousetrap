@@ -14,7 +14,7 @@
                 if (!_.isFunction(method)) method = this[events[key]];
                 if (!method) throw new Error('Method "' + events[key] + '" does not exist');
                 method = _.bind(method, this);
-                if ('bindGlobal' in Mousetrap && (key.indexOf('command') !== -1 || key.indexOf('ctrl') !== -1 || key.indexOf('control') !== -1)) {
+                if ('bindGlobal' in Mousetrap && (key.indexOf('command') !== -1 || key.indexOf('ctrl') !== -1)) {
                     Mousetrap.bindGlobal(key, method);
                 } else {
                     Mousetrap.bind(key, method);
