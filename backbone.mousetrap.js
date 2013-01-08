@@ -38,7 +38,7 @@
 
         remove: function() {
             var ret = oldRemove.apply(this, arguments);
-            this.unbindKeyboardEvents();
+            if (this.unbindKeyboardEvents) this.unbindKeyboardEvents();
             return ret;
         }
 
