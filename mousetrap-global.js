@@ -1,6 +1,6 @@
 require([
     'mousetrap'
-], function () {
+], function (Mousetrap) {
 
     // https://gist.github.com/3885446
     // https://github.com/ccampbell/mousetrap/pull/64
