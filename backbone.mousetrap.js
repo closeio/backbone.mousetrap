@@ -1,9 +1,19 @@
 (function(_, Backbone, Mousetrap) {
 
-    var oldInitialize = Backbone.View.prototype.initialize;
-    var oldRemove = Backbone.View.prototype.remove;
+    // Save a reference to the old View-Constructor
+    Backbone._View = Backbone.View;
 
-    _.extend(Backbone.View.prototype, {
+    // This ensures, that the keyboard-events-binding
+    // always happens, even if a custom initialize-
+    // method is defined in the View-Instance.
+    Backbone.View = function() {
+        Backbone._View.apply(this, arguments);
+        this.bindKeyboardEvents();
+    };
+
+    // Extending the new View-Constructor with old
+    // and new (Mousetrap-related) stuff.
+    _.extend(Backbone.View.prototype, Backbone._View.prototype, {
 
         keyboardEvents: {},
 
@@ -30,17 +40,15 @@
             return this;
         },
 
-        initialize: function() {
-            var ret = oldInitialize.apply(this, arguments);
-            this.bindKeyboardEvents();
-            return ret;
-        },
-
         remove: function() {
-            var ret = oldRemove.apply(this, arguments);
+            var ret = Backbone._View.prototype.remove.apply(this, arguments);
             if (this.unbindKeyboardEvents) this.unbindKeyboardEvents();
             return ret;
         }
 
     });
+
+    // Appending the extend-method to the new View-Constructor.
+    Backbone.View.extend = Backbone._View.extend;
+
 })(_, Backbone, Mousetrap);
