@@ -1,7 +1,7 @@
 (function(_, Backbone, Mousetrap) {
 
-    var oldInitialize = Backbone.View.prototype.initialize;
-    var oldRemove = Backbone.View.prototype.remove;
+    var oldDelegateEvents = Backbone.View.prototype.delegateEvents;
+    var oldUndelegateEvents = Backbone.View.prototype.undelegateEvents;
 
     _.extend(Backbone.View.prototype, {
 
@@ -30,14 +30,14 @@
             return this;
         },
 
-        initialize: function() {
-            var ret = oldInitialize.apply(this, arguments);
+        delegateEvents: function() {
+            var ret = oldDelegateEvents.apply(this, arguments);
             this.bindKeyboardEvents();
             return ret;
         },
 
-        remove: function() {
-            var ret = oldRemove.apply(this, arguments);
+        undelegateEvents: function() {
+            var ret = oldUndelegateEvents.apply(this, arguments);
             if (this.unbindKeyboardEvents) this.unbindKeyboardEvents();
             return ret;
         }
