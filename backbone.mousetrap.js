@@ -2,6 +2,7 @@
 
     var oldDelegateEvents = Backbone.View.prototype.delegateEvents;
     var oldUndelegateEvents = Backbone.View.prototype.undelegateEvents;
+    var oldRemove = Backbone.View.prototype.remove;
 
     _.extend(Backbone.View.prototype, {
 
@@ -38,6 +39,12 @@
 
         undelegateEvents: function() {
             var ret = oldUndelegateEvents.apply(this, arguments);
+            if (this.unbindKeyboardEvents) this.unbindKeyboardEvents();
+            return ret;
+        },
+
+        remove: function() {
+            var ret = oldRemove.apply(this, arguments);
             if (this.unbindKeyboardEvents) this.unbindKeyboardEvents();
             return ret;
         }
