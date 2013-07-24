@@ -5,6 +5,10 @@
     var oldUndelegateEvents = Backbone.View.prototype.undelegateEvents;
     var oldRemove = Backbone.View.prototype.remove;
 
+    // Map from keyboard commands to the View instance that most recently bound each one.
+    // so we can avoid accidentally unbinding keys when a view replaced a previous view's keybinding.
+    var lastBound = {};
+
     _.extend(Backbone.View.prototype, {
 
         keyboardEvents: {},
@@ -24,13 +28,17 @@
                 } else {
                     Mousetrap.bind(key, method);
                 }
+                lastBound[key] = this;
             }
             return this;
         },
 
         unbindKeyboardEvents: function() {
             for (var keys in this.keyboardEvents) {
-                Mousetrap.unbind(keys);
+                if (lastBound[keys] === this) {
+                    Mousetrap.unbind(keys);
+                    delete lastBound[keys];
+                }
             }
             return this;
         },
