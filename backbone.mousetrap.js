@@ -5,6 +5,10 @@
     var oldUndelegateEvents = Backbone.View.prototype.undelegateEvents;
     var oldRemove = Backbone.View.prototype.remove;
 
+    // Map from keyboard commands to the object that most recently bound each one.
+    // For a description of the bug this fixes, see: https://github.com/elasticsales/backbone.mousetrap/issues/5
+    var lastBound = {};
+
     _.extend(Backbone.View.prototype, {
 
         keyboardEvents: {},
@@ -24,13 +28,17 @@
                 } else {
                     Mousetrap.bind(key, method);
                 }
+                lastBound[key] = this;
             }
             return this;
         },
 
         unbindKeyboardEvents: function() {
             for (var keys in this.keyboardEvents) {
-                Mousetrap.unbind(keys);
+                if (lastBound[keys] === this) {
+                    Mousetrap.unbind(keys);
+                    delete lastBound[keys];
+                }
             }
             return this;
         },
