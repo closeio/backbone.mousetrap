@@ -8,7 +8,7 @@ Bring [Backbone.js](http://backbonejs.org/) and [Mousetrap](https://github.com/c
 * Keyboard events are unbound automatically when the view's `remove()` is called
 
 
-```
+```js
 var View = Backbone.View.extend({
     keyboardEvents: {
         'command+shift+t': 'test',
